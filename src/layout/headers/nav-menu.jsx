@@ -2,54 +2,31 @@
 import Link from "next/link";
 import htmlcontentservice from "@/src/service/htmlcontentservice";
 import { useEffect, useState } from "react";
+import { useSiteInfo } from "@/src/components/siteinfocontext/SiteInfoContext";
 
 const NavMenu = () => {
   const [menu, setMenu] = useState([]);
-
-  const GetSiteMenu = async () => {
-    var response = await htmlcontentservice.GetSiteMenu(
-      1,
-      999,
-      "Graycode-menu",
-      "en"
-    );
-    if (response.Code == 200) {
-      setMenu(response.Data.MenuOutputVM);
-    } else {
-      setMenu([]);
-    }
-  };
-
-  useEffect(() => {
-    GetSiteMenu();
-  }, []);
-
+  const { siteInfo, siteMenu } = useSiteInfo();
   const buildMenuTree = (series) => {
     const menuMap = {};
     const rootItems = [];
 
     const menu=[];
-    const sortedData = series?.sort((a, b) => a.ParentId - b.ParentId);
+    const sortedData = series &&series?.sort((a, b) => a.ParentId - b.ParentId);
 
-    sortedData.forEach(item => {
+    sortedData &&sortedData.forEach(item => {
     if (item.ParentId === 0) {
         menu.push({ ...item, sub_menus: [] });
     } else {
-      // debugger;
-        // Find the parent menu item and push to its subMenu
         const parent = menu.find(menuItem => menuItem.Id === item.ParentId);
         if (parent) {
             parent.sub_menus.push(item);
         }
     }
 });
-
     return menu;
   };
-
-  const menuTree = buildMenuTree(menu);
-  
-
+  const menuTree = buildMenuTree(siteMenu);
   return (
     <>
       <ul>

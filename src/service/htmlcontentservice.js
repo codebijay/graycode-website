@@ -490,6 +490,19 @@ class HomeService {
             }
         }
     }
+    async GetBlogListDisplay(pageNo, pageSize){
+        try {
+            const res = await (await request()).get(api.Blogs.ListDisplay + "?pageNo=" + pageNo + "&pageSize=" + pageSize);
+            return await res.data;
+        }
+        catch (error) {
+            return {
+                Message: error?.response?.statusText,
+                Code: error?.response?.status,
+                Data: null,
+            }
+        }
+    }
     async GetBlogdetails(slug){
         try{
             const resp=await(await request()).get(api.Blogs.BlogDetails + "?slug=" +slug)

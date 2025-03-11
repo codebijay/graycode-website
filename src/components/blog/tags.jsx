@@ -20,7 +20,7 @@ const Tags = () => {
                 <h3 className="sidebar__widget-title">Tags</h3>
                 <div className="sidebar__widget-content">
                     <div className="tagcloud">
-                        {tag && tag.length>0 && tag?.split(",")?.map((item, i) =>  <Link href="#" key={i}>{item.Tags}</Link>)}
+                        {tag && tag.length>0 && tag?.split(",")?.map((item, i) =>  <Link href="#" key={i}>{item}</Link>)}
                     </div>
                 </div>
             </div>

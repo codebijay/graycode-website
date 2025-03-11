@@ -14,7 +14,7 @@ import { ApiEndPoints } from "@/src/config/apiconfig";
 const PostboxArea = () => {
   const [blogPage, setBlogPage] = useState("");
   const GetBlogs = async () => {
-    var response = await htmlcontentservice.GetBlogList(1, 4, "");
+    var response = await htmlcontentservice.GetBlogListDisplay(1, 4, "");
     if (response.Code == 200) {
       setBlogPage(response.Data);
     }
@@ -38,7 +38,7 @@ const PostboxArea = () => {
                       className="postbox__item format-image mb-50 transition-3"
                     >
                       <div className="postbox__thumb w-img">
-                        <Link href={`/blog-details/${item.BlogSlug}`}>
+                        <Link href={`/blog/${item.BlogSlug}`}>
                           {item?.ThumbImage ? (
                             <Image
                               src={ApiEndPoints.baseUrl + item.ThumbImage}
@@ -61,7 +61,7 @@ const PostboxArea = () => {
                           </span>
                         </div>
                         <h3 className="postbox__title">
-                          <Link href="/blog-details">{item.BlogTitle}</Link>
+                          <Link href={`/blog/${item.BlogSlug}`}>{item.BlogTitle}</Link>
                         </h3>
                         <div className="postbox__text">
                           <p
@@ -78,7 +78,7 @@ const PostboxArea = () => {
                         </div>
                         <div className="postbox__read-more">
                           <Link
-                            href={`/blog-details/${item.BlogSlug}`}
+                            href={`/blog/${item.BlogSlug}`}
                             className="tp-btn"
                           >
                             Read More

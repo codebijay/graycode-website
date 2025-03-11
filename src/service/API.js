@@ -75,6 +75,7 @@ export default API = {
    RecentList:ApiEndPoints.api + "/blogs/recent",
    PopularTag:ApiEndPoints.api + "/blogs/popular/tags",
    BlogList:ApiEndPoints.api + "/blogs/list",
+   ListDisplay:ApiEndPoints.api + "/blogs/list/display",
    BlogDetails:ApiEndPoints.api + "/blogs/details"
   }
   

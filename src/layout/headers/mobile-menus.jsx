@@ -1,26 +1,17 @@
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import htmlcontentservice from "@/src/service/htmlcontentservice";
+import { useSiteInfo } from "@/src/components/siteinfocontext/SiteInfoContext";
 const MobileMenus = () => {
   const [menu, setMenu] = useState([]);
+  const { siteInfo, siteMenu } = useSiteInfo();
   const [openMenuId, setOpenMenuId] = useState(null);
   const [submenuStyles, setSubmenuStyles]=useState({})
   const submenuRefs=useRef({})
-  const GetSiteMenu = async () => {
-    var response = await htmlcontentservice.GetSiteMenu(1, 99, "Graycode-menu", "en");
-    if (response.Code === 200) {
-      setMenu(response.Data.MenuOutputVM);
-    } else {
-      setMenu([]);
-    }
-  };
-  useEffect(() => {
-    GetSiteMenu();
-  }, []);
   const buildMenuTree = (menu) => {
     const menuMap = {};
     const rootItems = [];
-    menu.forEach(item => {
+    menu &&menu.forEach(item => {
       item.sub_menus = [];
       menuMap[item.Id] = item;
       if (item.ParentId === 0) {
@@ -33,7 +24,7 @@ const MobileMenus = () => {
     return rootItems;
   };
 
-  const menuTree = buildMenuTree(menu);
+  const menuTree = buildMenuTree(siteMenu);
   const toggleSubMenu = (menuId) => {
     const currentHeight=submenuRefs.current[menuId]?.scrollHeight;
     const updatedStyles={...submenuStyles}

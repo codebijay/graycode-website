@@ -2,18 +2,14 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "../layout/footers/footer"; 
-import SEO from "../common/seo";
 import HeaderOne from "../layout/headers/header";
 import error_shape from "@assets/img/error/error-shape.png";
 import error_img from "@assets/img/error/404.png";
-import htmlcontentservice from "../service/htmlcontentservice";
-import Seo from "../common/seo";
 
 
-export default function index(meta, url){
+export default function NotFound(){
   return (
     <>
-    <Seo meta={meta} url={url} />
     <HeaderOne />
       <div id="smooth-wrapper">
         <div id="smooth-content">
@@ -51,13 +47,3 @@ export default function index(meta, url){
   );
 };
 
-export async function getServerSideProps(context) {
-  var url = context.resolvedUrl;
-  let meta = await htmlcontentservice.getSeoByPage(url);
-  return {
-    props: {
-      meta,
-      url,
-    },
-  };
-}

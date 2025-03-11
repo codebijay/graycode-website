@@ -13,7 +13,7 @@ import Seo from "@/src/common/seo";
 export default function BlogDetail(meta,url) {
   const router = useRouter();
   const pathname = usePathname();
-  let slug = pathname?.replace("/blog-details/", "").split("?")[0];
+  let slug = pathname?.replace("/blog/", "").split("?")[0];
   console.log(slug);
   
   const [isloading, setIsloading] = useState(false);

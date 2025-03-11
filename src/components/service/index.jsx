@@ -12,7 +12,7 @@ const Sevice = () => {
       <main>
             <Breadcrumb top_title="Our Services" page_title="Service" />
             <ServiceArea />
-            <IndustryArea service={true} />
+            {/* <IndustryArea service={true} /> */}
       </main>
       <Footer/>
     </>

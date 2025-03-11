@@ -11,7 +11,7 @@ const BlogArea = () => {
   const [homeBlog, setHomeBlog] = useState("");
  
   const GetHomeBlog = async () => {
-    var response = await htmlcontentservice.GetBlogList(1, 4, "");
+    var response = await htmlcontentservice.GetBlogListDisplay(1, 3, "");
     if (response.Code == 200) {
       setHomeBlog(response.Data);
     }
@@ -57,7 +57,7 @@ const BlogArea = () => {
                 <div key={i} className="col-lg-4 col-md-6">
                   <div className="tp-blog-wrapper mb-30">
                     <div className="tp-blog-thumb">
-                      <Link href="/blog-details">
+                      <Link href={`/blog/${item.BlogSlug}`}>
                         {item?.ThumbImage ? (
                           <Image
                             src={ApiEndPoints.baseUrl + item.ThumbImage}
@@ -91,7 +91,7 @@ const BlogArea = () => {
                         }}
                       >
                         <Link
-                          href="/blog-details"
+                          href={`/blog/${item.BlogSlug}`}
                           style={{
                             display: "-webkit-box",
                             WebkitBoxOrient: "vertical",
@@ -107,7 +107,7 @@ const BlogArea = () => {
                       </h3>
                       <div className="tp-blog-btn d-flex justify-content-between">
                         <div className="read-more p-relative">
-                          <Link href={`/blog-details/${item.BlogSlug}`}>
+                          <Link href={`/blog/${item.BlogSlug}`}>
                             Read More{" "}
                             <span>
                               {" "}

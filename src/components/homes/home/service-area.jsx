@@ -360,6 +360,9 @@ import fun_fact_shape_5 from "@assets/img/fun-fact/shadow.png";
 
 import reload_img from "@assets/img/fun-fact/world.png";
 import htmlcontentservice from '@/src/service/htmlcontentservice';
+import { ApiEndPoints } from '@/src/config/apiconfig';
+import '@splidejs/splide/dist/css/splide.min.css';
+
 
 
   const counter_content = [
@@ -390,13 +393,17 @@ import htmlcontentservice from '@/src/service/htmlcontentservice';
   ]
 const ServiceArea = () => {
 
-   const setting = {
+    const setting = {
       type   : 'loop',
       drag   : 'free',
       pagination: false,
+     autoplay:true,
+     interval:2000,
+     perMove:1,
       arrows: false,
       perPage: 5,
-      gap:'30px',
+      speed:800,
+      // gap:'30px',
       breakpoints: {
          1800: {
             perPage: 5,
@@ -410,14 +417,19 @@ const ServiceArea = () => {
          800: {
             perPage: 2,
          },
-         566: {
+         576: {
             perPage: 1,
+            perMove:1,
+            autoplay:true,
+            interval:2000,
          },
+         
         },
      }
    const splideRef = useRef(null); 
 
    const [reloadClassName, setReloadClassName] = useState(null);
+   
    useEffect(() => {
       const reload = document.getElementById('reload');
       setReloadClassName(reload);
@@ -435,15 +447,30 @@ const ServiceArea = () => {
          window.removeEventListener('scroll', scrollRotate);
       };
    }, [reloadClassName]);
-
+   // const prevButtonRef = useRef(null);
+   // const nextButtonRef = useRef(null);
    const [serviceArea,setServiceArea]=useState("")
-   const GetServiceArea=async()=>{
-    var response= await htmlcontentservice.GetHtmlContentListbyKey(1,99,"graycode_Techworld","en")
-    if(response.Code==200){
-      setServiceArea(response.Data?.HtmlContentVM[0]?.ContentHtml)
-    }
+   const [newServices, setNewServices]=useState("")
+   // const GetServiceArea=async()=>{
+   //  var response= await htmlcontentservice.GetHtmlContentListbyKey(1,99,"graycode_Techworld","en")
+   //  if(response.Code==200){
+   //    setServiceArea(response.Data?.HtmlContentVM[0]?.ContentHtml)
+   //  }
+   // }
+  const GetNewServiceList=async()=>{
+   var response=await htmlcontentservice.GetHtmlContentListbyKey(1,99,"	gray_professional", "en")
+   if(response.Code==200){
+      setNewServices(response.Data)
    }
-   useEffect(()=>{GetServiceArea()},[])
+  }
+
+
+   useEffect(()=>{
+      // GetServiceArea()
+      GetNewServiceList()
+
+   },[])
+   
    
 
     return (   
@@ -460,7 +487,7 @@ const ServiceArea = () => {
                                  service <span className="title-pre-color">IT Solutions</span> 
                                  <AngleArrow />                                 
                               </span>
-                              <h3 className="tp-section-title">All Professional <i>IT Solutions</i> & Services
+                              <h3 className="tp-section-title">{newServices && newServices.SettingTitle}<i> {newServices && newServices.SettingSubTitle}</i>
                                  <span className="title-center-shape"> 
                                     <LineArrowTwo />
                                  </span> 
@@ -471,17 +498,17 @@ const ServiceArea = () => {
                         <div className="tp-service-slider-wrapper">
                               <Splide options={setting}  ref={splideRef}  
                                  className="service-active splide">
-                                 {service_data.map((item, i) => 
+                                 {newServices.HtmlContentVM && newServices.HtmlContentVM?.length>0 && newServices.HtmlContentVM.map((item, i) => 
                                  <SplideSlide key={i}>
                                        <div className="tp-service-wrapper p-relative mb-55">
                                           <div className="tp-service-designation">
                                              <p>{item.alphabet}</p>
                                           </div>
-                                          <h3 className="service-title">{item.title}</h3>
+                                          <h3 className="service-title">{item.Title}</h3>
                                           <div className="tp-service-icon">
                                              <Image src={item.img} alt="theme-pure" />
                                           </div>
-                                          <p className="hide-text">{item.description}</p>
+                                          <p className="hide-text">{item.Subtitle}</p>
                                           <div className="tp-service-btn">
                                              <Link href="/service-details">Read Out More 
                                              <i className="fa-solid fa-arrow-up-right"></i>
@@ -505,6 +532,114 @@ const ServiceArea = () => {
 
                   </div>
                </section>  */}
+                <section className="tp-service-area pt-85 pb-50">
+         <div className="container-fluid">
+          <div className="row">
+             <div className="col-lg-8">
+             <div className="tp-service-title-wrapper text-center">
+                 <span className="tp-section-title__pre">
+                   service <span className="title-pre-color">IT Solutions</span>
+                   <AngleArrow />
+                 </span>
+                 <h3 className="tp-section-title">
+                   {" "}
+                   {newServices && newServices?.SettingTitle}{" "}
+                   <i>{newServices && newServices?.SettingSubTitle}</i>
+                   <span className="title-center-shape">
+                    <LineArrowTwo />
+                  </span>
+                 </h3>
+               </div>
+             </div>
+
+             {/* <div className="col-lg-4 tp-about-wrapper">
+               <div className="tp-about-nav d-none d-md-block p-relative tp-service-nav">
+                 <button
+                  type="button"
+                   className="about-button-prev-1 service-button-prev-1"
+                  //  ref={prevButtonRef}
+                 >
+                   <i className="fa-regular fa-arrow-left"></i>
+                 </button>
+                 <button
+                   type="button"
+                   className="about-button-next-1"
+                  //  ref={nextButtonRef}
+                 >
+                   <i className="fa-regular fa-arrow-right"></i>
+                 </button>
+               </div>
+             </div> */}
+
+             <div className="tp-service-slider-wrapper">
+               <Splide
+                 options={setting}
+                 ref={splideRef}
+                 className="service-active splide"
+               >
+                 {newServices?.HtmlContentVM &&
+                   newServices.HtmlContentVM?.length > 0 &&
+                   newServices.HtmlContentVM?.map((item, i) => (
+                     <SplideSlide key={i}>
+                       <div className="tp-service-wrapper p-relative mb-55 w-100">
+                         {/* <div className="tp-service-designation">
+                           <p>P</p>
+                         </div> */}
+                         <h3 className="service-title">{item.Title}</h3>
+                         <div className="tp-service-icon">
+                           {item?.BackgroundImagesArray ? (
+                             <Image
+                               src={ApiEndPoints.baseUrl + item.BackgroundImagesArray}
+                               alt="theme-pure"
+                               height={68}
+                               width={62}
+                             />
+                           ) : (
+                             ""
+                           )}
+                         </div>
+                         <p
+                           className="hide-text"
+                           style={{
+                             display: "-webkit-box",
+                             WebkitBoxOrient: "vertical",
+                             WebkitLineClamp: 3,
+                             overflow: "hidden",
+                             textOverflow: "ellipsis",
+                             lineHeight: "1.3em", 
+                             height: "3.9em", 
+                           }}
+                         >
+                           {item.Subtitle}
+                         </p>
+                         <div className="tp-service-btn">
+                           <Link href={`/services/${item?.PageName || ""}`}>
+                             Read Out More
+                             <i className="fa-solid fa-arrow-up-right"></i>
+                           </Link>
+                         </div>
+                       </div>
+                     </SplideSlide>
+                   ))}
+               </Splide>
+             </div>
+           </div>
+
+           <div className="row">
+             <div className="col-lg-12">
+               <div className="tp-service-all-btn text-center fadeUp">
+                 <Link className="tp-btn" href="/service-details">
+                   View all Services
+                 </Link>
+               </div>
+             </div>
+           </div>        
+            </div>
+       </section>
+
+               
+
+               
 
                <section className="tp-fun-fact-area pt-80 pb-65 p-relative">
                   <div className="container container-1400">

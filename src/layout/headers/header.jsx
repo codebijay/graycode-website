@@ -10,13 +10,14 @@ import Sidebar from '@/src/modals/sidebar';
 import { ApiEndPoints } from '@/src/config/apiconfig';
 import { useSiteInfo } from '@/src/components/siteinfocontext/SiteInfoContext';
 
+
 const HeaderOne = () => {
-   const siteInfo=useSiteInfo()
    const {sticky}  =  useSticky()
    const langToggleRef = useRef(null);
    const [searchOpen, setSearchOpen] = useState(false)
    const [sidebarOpen, setSidebarOpen] = useState(false)
    const [isLangListOpen, setIsLangListOpen] = useState(false);
+   const siteInfo=useSiteInfo()
    useEffect(() => {
      if (langToggleRef.current) {
        const handleClickOutside = (e) => {

@@ -1,9 +1,8 @@
-
 import { NextSeo } from "next-seo";
 import { ApiEndPoints } from "../config/apiconfig";
 
  export default function Seo({ meta, url }){
-  if (url != null) {
+  if (url && typeof url === "string") {
     url = url.split("?")[0];
   }
 
@@ -15,6 +14,7 @@ import { ApiEndPoints } from "../config/apiconfig";
     }
     return true;
   };
+
 
   const Api = ApiEndPoints.baseUrl;
   let data;

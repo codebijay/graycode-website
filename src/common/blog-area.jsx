@@ -22,7 +22,7 @@ const BlogArea = ({ service }) => {
   // console.log(blogAbout);
   // useEffect(()=>{GetBlogAboutList()},[])
   const GetBlogAbout = async () => {
-    var response = await htmlcontentservice.GetBlogList(1, 3, "");
+    var response = await htmlcontentservice.GetBlogListDisplay(1, 3, "");
     if (response.Code == 200) {
       setBlogAbout(response.Data);
     }
@@ -63,7 +63,7 @@ const BlogArea = ({ service }) => {
                 <div key={i} className="col-xl-4 col-md-6">
                   <div className="tp-blog-3-wrapper mb-30 OneByOne">
                     <div className="tp-blog-3-thumb">
-                      <Link href={`/blog-details/${item.BlogSlug}`}>
+                      <Link href={`/blog/${item.BlogSlug}`}>
                         <Image
                           src={ApiEndPoints.baseUrl + item.ThumbImage}
                           alt="theme-pure"
@@ -100,7 +100,7 @@ const BlogArea = ({ service }) => {
                           }}
                       >
                         <Link
-                          href="/blog-details"
+                          href={`/blog/${item.BlogSlug}`}
                           style={{
                             color: 'inherit',
                             textDecoration: 'none',
@@ -113,7 +113,7 @@ const BlogArea = ({ service }) => {
                     </div>
                     <div className="tp-blog-3-btn d-flex justify-content-between">
                       <div className="read-more p-relative">
-                        <Link href={`/blog-details/${item.BlogSlug}`}>
+                        <Link href={`/blog/${item.BlogSlug}`}>
                           Read More
                           <span>
                             {" "}
